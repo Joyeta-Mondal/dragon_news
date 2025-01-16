@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 const Login = () => {
   return (
     <div className="min-h-screen flex justify-center items-center">
-      <div className="card bg-base-100 w-full max-w-lg shrink-0 shadow-2xl">
+      <div className="card bg-base-100 w-full max-w-lg shrink-0 rounded-none shadow-xl">
         <h2 className="text-2xl pt-10 font-semibold text-center">
           Login to your account
         </h2>
@@ -39,6 +41,15 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <p className="pb-8 font-semibold text-center">
+          Don't have an account? Please{" "}
+          <Link
+            className="text-blue-800 hover:text-blue-400"
+            to="/auth/register"
+          >
+            Register.
+          </Link>
+        </p>
       </div>
     </div>
   );
