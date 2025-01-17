@@ -1,6 +1,32 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
 
 const Register = () => {
+  const { createNewUser, user, setUser } = useContext(AuthContext);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // js builtin object -> FormData
+    const form = new FormData(e.target);
+    const name = form.get("name");
+    const email = form.get("email");
+    const photo = form.get("photo");
+    const password = form.get("password");
+    // console.log({ name, email, photo, password });
+
+    // create new user with email and password
+    createNewUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  };
+
   return (
     <div>
       <div className="min-h-screen flex justify-center items-center">
@@ -8,7 +34,7 @@ const Register = () => {
           <h2 className="text-2xl pt-10 font-semibold text-center">
             Register to create an account
           </h2>
-          <form className="card-body">
+          <form onSubmit={handleSubmit} className="card-body">
             {/* name */}
             <div className="form-control">
               <label className="label">
@@ -16,6 +42,7 @@ const Register = () => {
               </label>
               <input
                 type="text"
+                name="name"
                 placeholder="Name"
                 className="input input-bordered"
                 required
@@ -28,6 +55,7 @@ const Register = () => {
               </label>
               <input
                 type="email"
+                name="email"
                 placeholder="Email"
                 className="input input-bordered"
                 required
@@ -40,6 +68,7 @@ const Register = () => {
               </label>
               <input
                 type="text"
+                name="photo"
                 placeholder="Photo URL"
                 className="input input-bordered"
                 required
@@ -52,6 +81,7 @@ const Register = () => {
               </label>
               <input
                 type="password"
+                name="password"
                 placeholder="password"
                 className="input input-bordered"
                 required
@@ -63,7 +93,7 @@ const Register = () => {
               </button>
             </div>
           </form>
-          <p className="pb-8 font-semibold text-center">
+          <p className="pb-8 font-sem ibold text-center">
             Already have an account? Please{" "}
             <Link
               className="text-blue-800 hover:text-blue-400"
