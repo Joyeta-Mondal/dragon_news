@@ -13,15 +13,19 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  // loading when refreshed
+  const [loading, setLoading] = useState(true);
 
   //   create new user
   const createNewUser = (email, password) => {
+    setLoading(true)
     return createUserWithEmailAndPassword(auth, email, password);
   };
   // observer to observe if a user is logged in, signed up or signed out. This only executes once.
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
     return () => {
       unSubscribe();
@@ -30,10 +34,12 @@ const AuthProvider = ({ children }) => {
 
   //   user login
   const userLogin = (email, password) => {
+    setLoading(true)
     return signInWithEmailAndPassword(auth, email, password);
   };
   //   log out
   const logOut = () => {
+    setLoading(true)
     return signOut(auth);
   };
 
@@ -43,6 +49,7 @@ const AuthProvider = ({ children }) => {
     createNewUser,
     userLogin,
     logOut,
+    l oad ing,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
